@@ -1,0 +1,30 @@
+body, html {
+  padding: 0;
+  background: #03045e;
+}
+.container {
+  display: flex;
+  align-items: flex-end;
+}
+.item {
+  margin-left: 1px;
+  width: 10px;
+  background:  #0077b6;
+}
+/* bubble sort */
+.active {
+  background: #ade8f4;
+}
+.changing {
+  background: #48cae4;
+}
+/* qsort */
+.left-item {
+  background: #caf0f8;
+}
+.right-item {
+  background: #90e0ef;
+}
+.same-item {
+  background: #00b4d8;
+}
