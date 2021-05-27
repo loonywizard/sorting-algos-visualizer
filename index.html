@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body, html {
+      padding: 0;
+      background: #03045e;
+    }
+    .container {
+      display: flex;
+      align-items: flex-end;
+    }
+    .item {
+      margin: 0 2px;
+      width: 10px;
+      background:  #0077b6;
+    }
+    .active {
+      background: #ade8f4;
+    }
+    .changing {
+      background: #48cae4;
+    }
+  </style>
+</head>
+<body>
+  <div id="container" class="container">
+
+  </div>
+  <script>
+function generateRandomNumber(min, max, fractionDigits = 0) {
+  const randomNumber = Math.random() * (max - min) + min
+
+  return Math.floor(randomNumber * (10 ** fractionDigits)) / (10 ** fractionDigits)
+}
+const arr = []
+for (let i = 0; i < 30; i++) {
+  arr.push(generateRandomNumber(1, 50))
+}
+
+const htmlContainer = document.getElementById('container')
+const htmlElements = arr.map((value) => {
+  const htmlEl = document.createElement('div')
+  htmlEl.classList.add('item')
+  htmlEl.style.height = `${value * 10}px`
+  htmlContainer.appendChild(htmlEl)
+
+  return htmlEl
+})
+
+
+const OPERATIONS_PER_SECOND = 20
+
+function wait(timeToWait = 1000 / OPERATIONS_PER_SECOND) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(), timeToWait)
+  })
+}
+
+async function bubbleSort(arr) {
+  const n = arr.length
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
+      console.log(`comparing elements ${j} and ${j + 1}`)
+      htmlElements[j].classList.add('active')
+      htmlElements[j + 1].classList.add('active')
+
+
+      await wait()
+
+      if (arr[j] > arr[j + 1]) {
+        console.log(`swapping elements ${j} and ${j + 1}`)
+        const t = arr[j + 1]
+        arr[j + 1] = arr[j]
+        arr[j] = t
+
+        htmlElements[j].style.height = `${arr[j] * 10}px`
+        htmlElements[j + 1].style.height = `${arr[j + 1] * 10}px`
+
+        htmlElements[j].classList.add('changing')
+        htmlElements[j + 1].classList.add('changing')
+        await wait()
+        htmlElements[j].classList.remove('changing')
+        htmlElements[j + 1].classList.remove('changing')
+      }
+
+      htmlElements[j].classList.remove('active')
+      htmlElements[j + 1].classList.remove('active')
+    }
+  }
+}
+
+(async () => {
+  await bubbleSort(arr)
+
+  console.log(arr)
+})()
+
+  </script>
+</body>
+</html>
