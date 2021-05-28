@@ -37,7 +37,7 @@ const htmlElementsBubbleSort = arr.map((value) => {
 })
 
 
-const OPERATIONS_PER_SECOND = 60
+const OPERATIONS_PER_SECOND = 600
 
 function wait(timeToWait = 1000 / OPERATIONS_PER_SECOND) {
   return new Promise((resolve) => {
@@ -113,11 +113,11 @@ async function bubbleSort(arr) {
         htmlElementsBubbleSort[j].style.height = `${arr[j]}px`
         htmlElementsBubbleSort[j + 1].style.height = `${arr[j + 1]}px`
 
-        htmlElementsBubbleSort[j].classList.add('changing')
-        htmlElementsBubbleSort[j + 1].classList.add('changing')
-        await wait()
-        htmlElementsBubbleSort[j].classList.remove('changing')
-        htmlElementsBubbleSort[j + 1].classList.remove('changing')
+        // htmlElementsBubbleSort[j].classList.add('changing')
+        // htmlElementsBubbleSort[j + 1].classList.add('changing')
+        // await wait()
+        // htmlElementsBubbleSort[j].classList.remove('changing')
+        // htmlElementsBubbleSort[j + 1].classList.remove('changing')
       }
 
       htmlElementsBubbleSort[j].classList.remove('active')
