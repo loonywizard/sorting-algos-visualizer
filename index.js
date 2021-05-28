@@ -1,50 +1,89 @@
-function generateRandomNumber(min, max, fractionDigits = 0) {
-  const randomNumber = Math.random() * (max - min) + min
-
-  return Math.floor(randomNumber * (10 ** fractionDigits)) / (10 ** fractionDigits)
-}
-
-const arr = []
-for (let i = 0; i < 150; i++) {
-  arr.push(generateRandomNumber(1, 500))
-}
-
-const htmlContainerBubbleSort = document.createElement('div')
-htmlContainerBubbleSort.classList.add('container')
-
-const htmlContainerQuckSort = document.createElement('div')
-htmlContainerQuckSort.classList.add('container')
-
-document.body.appendChild(htmlContainerQuckSort)
-document.body.appendChild(htmlContainerBubbleSort)
-
-
-const htmlElementsQuickSort = arr.map((value) => {
-  const htmlEl = document.createElement('div')
-  htmlEl.classList.add('item')
-  htmlEl.style.height = `${value}px`
-  htmlContainerQuckSort.appendChild(htmlEl)
-
-  return htmlEl
-})
-const htmlElementsBubbleSort = arr.map((value) => {
-  const htmlEl = document.createElement('div')
-  htmlEl.classList.add('item')
-  htmlEl.style.height = `${value}px`
-  htmlContainerBubbleSort.appendChild(htmlEl)
-
-  return htmlEl
-})
-
-
-const OPERATIONS_PER_SECOND = 600
-
+/*
+ * wait a given time (in milliseconds)
+ */
 function wait(timeToWait = 1000 / OPERATIONS_PER_SECOND) {
   return new Promise((resolve) => {
     setTimeout(() => resolve(), timeToWait)
   })
 }
 
+
+/*
+ * generates random number between min and max
+ */
+function generateRandomNumber(min, max) {
+  return Math.random() * (max - min) + min
+}
+
+
+/*
+ * generates array of length n of random numbers between min and max
+ */
+function generateRandomArray({ n, min, max }) {
+  const arr = []
+
+  for (let i = 0; i < n; i++) {
+    arr.push(generateRandomNumber(min, max))
+  }
+
+  return arr
+}
+
+
+
+/*
+ * appends child elements to parent element
+ */
+function appendChildrenToHtmlElement(htmlElement, children) {
+  children.forEach((elementToAppend) => {
+    htmlElement.appendChild(elementToAppend)
+  })
+}
+
+
+/*
+ * creates HTML element - container for elements of sorting array
+ */
+function createContainerDiv() {
+  const element = document.createElement('div')
+
+  element.classList.add('container')
+
+  return element
+}
+
+
+/*
+ * creates HTML element - item of sorting array
+ */
+function createArrayHtmlElement(value) {
+  const htmlElement = document.createElement('div')
+  
+  htmlElement.classList.add('item')
+  htmlElement.style.height = `${value}px`
+  
+  return htmlElement
+}
+
+
+/*
+ * inits HTML elements for given array and iserts them to DOM 
+ */
+function createHtmlArrayElements(arr) {
+  const container = createContainerDiv()
+
+  const elements = arr.map((arrItem) => createArrayHtmlElement(arrItem, container))
+
+  appendChildrenToHtmlElement(container, elements)
+  appendChildrenToHtmlElement(document.body, [container])
+
+  return elements
+}
+
+
+/*
+ * quick sort (recursive approach) visualization
+ */
 async function qsort(arr, shiftIndex = 0) {
   if (arr.length < 2) return arr
 
@@ -58,21 +97,22 @@ async function qsort(arr, shiftIndex = 0) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === baseElement) {
       sameElements.push(baseElement)
-      htmlElementsQuickSort[i + shiftIndex].classList.add('left-item')
+      htmlElementsQuickSort[i + shiftIndex].classList.add(SAME_ITEM_CSS_CLASS)
     } else if (arr[i] < baseElement) {
       smallerElements.push(arr[i])
-      htmlElementsQuickSort[i + shiftIndex].classList.add('same-item')
+      htmlElementsQuickSort[i + shiftIndex].classList.add(LEFT_ITEM_CSS_CLASS)
     } else {
       greaterElements.push(arr[i])
-      htmlElementsQuickSort[i + shiftIndex].classList.add('right-item')
+      htmlElementsQuickSort[i + shiftIndex].classList.add(RIGHT_ITEM_CSS_CLASS)
     }
+    
     await wait()
   }
 
   for (let i = shiftIndex; i < shiftIndex + arr.length; i++) {
-    htmlElementsQuickSort[i].classList.remove('left-item')
-    htmlElementsQuickSort[i].classList.remove('right-item')
-    htmlElementsQuickSort[i].classList.remove('same-item')
+    htmlElementsQuickSort[i].classList.remove(LEFT_ITEM_CSS_CLASS)
+    htmlElementsQuickSort[i].classList.remove(SAME_ITEM_CSS_CLASS)
+    htmlElementsQuickSort[i].classList.remove(RIGHT_ITEM_CSS_CLASS)
   }
 
   
@@ -85,6 +125,7 @@ async function qsort(arr, shiftIndex = 0) {
   greaterElements.forEach((element, elementIndex) => {
     htmlElementsQuickSort[shiftIndex + smallerElements.length + sameElements.length + elementIndex].style.height = `${element}px`
   })
+  
   await wait()
 
   const left = await qsort(smallerElements, shiftIndex)
@@ -93,14 +134,17 @@ async function qsort(arr, shiftIndex = 0) {
   return [...left, ...sameElements, ...right]
 }
 
+
+/*
+ * bubble sort visualization
+ */
 async function bubbleSort(arr) {
   const n = arr.length
 
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n - i - 1; j++) {
-      console.log(`comparing elements ${j} and ${j + 1}`)
-      htmlElementsBubbleSort[j].classList.add('active')
-      htmlElementsBubbleSort[j + 1].classList.add('active')
+      htmlElementsBubbleSort[j].classList.add(LEFT_ITEM_CSS_CLASS)
+      htmlElementsBubbleSort[j + 1].classList.add(RIGHT_ITEM_CSS_CLASS)
 
 
       await wait()
@@ -112,23 +156,37 @@ async function bubbleSort(arr) {
 
         htmlElementsBubbleSort[j].style.height = `${arr[j]}px`
         htmlElementsBubbleSort[j + 1].style.height = `${arr[j + 1]}px`
-
-        // htmlElementsBubbleSort[j].classList.add('changing')
-        // htmlElementsBubbleSort[j + 1].classList.add('changing')
-        // await wait()
-        // htmlElementsBubbleSort[j].classList.remove('changing')
-        // htmlElementsBubbleSort[j + 1].classList.remove('changing')
       }
 
-      htmlElementsBubbleSort[j].classList.remove('active')
-      htmlElementsBubbleSort[j + 1].classList.remove('active')
+      htmlElementsBubbleSort[j].classList.remove(LEFT_ITEM_CSS_CLASS)
+      htmlElementsBubbleSort[j + 1].classList.remove(RIGHT_ITEM_CSS_CLASS)
     }
   }
 }
 
-(async () => {
-  await Promise.all([
-    qsort([...arr]),
-    bubbleSort([...arr]), 
-  ])
-})()
+
+/*
+ * init array and html elements 
+ */
+const initialRandomArray = generateRandomArray({ n: 150, min: 1, max: 500 })
+
+const htmlElementsQuickSort = createHtmlArrayElements(initialRandomArray)
+const htmlElementsBubbleSort = createHtmlArrayElements(initialRandomArray)
+
+
+/*
+ * declare constant
+ */
+const OPERATIONS_PER_SECOND = 60
+
+const LEFT_ITEM_CSS_CLASS = 'left-item'
+const SAME_ITEM_CSS_CLASS = 'same-item'
+const RIGHT_ITEM_CSS_CLASS = 'right-item'
+
+
+/*
+ * start visualization process
+ */
+qsort([...initialRandomArray])
+bubbleSort([...initialRandomArray])
+
