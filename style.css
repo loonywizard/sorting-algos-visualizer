@@ -3,9 +3,16 @@ body, html {
   margin: 0;
   background: #03045e;
 }
-.container {
+.wrapper {
   padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+.sorting-algo-container {
   display: flex;
+  flex-grow: 50%;
   align-items: flex-end;
 }
 .item {

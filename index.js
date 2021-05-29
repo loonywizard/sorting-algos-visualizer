@@ -46,7 +46,7 @@ function appendChildrenToHtmlElement(htmlElement, children) {
 function createContainerDiv() {
   const element = document.createElement('div')
 
-  element.classList.add('container')
+  element.classList.add('sorting-algo-container')
 
   return element
 }
@@ -70,11 +70,12 @@ function createArrayHtmlElement(value) {
  */
 function createHtmlArrayElements(arr) {
   const container = createContainerDiv()
+  const htmlWrapperElement = document.getElementById('wrapper')
 
   const elements = arr.map((arrItem) => createArrayHtmlElement(arrItem, container))
 
   appendChildrenToHtmlElement(container, elements)
-  appendChildrenToHtmlElement(document.body, [container])
+  appendChildrenToHtmlElement(htmlWrapperElement, [container])
 
   return elements
 }
@@ -231,7 +232,7 @@ async function bubbleSort(arr) {
 /*
  * init array and html elements 
  */
-const initialRandomArray = generateRandomArray({ n: 150, min: 1, max: 500 })
+const initialRandomArray = generateRandomArray({ n: 50, min: 1, max: 400 })
 
 const htmlElementsQuickSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsMergeSort = createHtmlArrayElements(initialRandomArray)
@@ -241,7 +242,7 @@ const htmlElementsBubbleSort = createHtmlArrayElements(initialRandomArray)
 /*
  * declare constant
  */
-const OPERATIONS_PER_SECOND = 60
+const OPERATIONS_PER_SECOND = 20
 
 const LEFT_ITEM_CSS_CLASS = 'left-item'
 const SAME_ITEM_CSS_CLASS = 'same-item'
