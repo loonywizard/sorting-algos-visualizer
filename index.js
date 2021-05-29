@@ -9,6 +9,16 @@ function wait(timeToWait = 1000 / OPERATIONS_PER_SECOND) {
 
 
 /*
+ * swaps two given elements in a given array
+ */
+function swap(arr, firstElementIndex, secondElementIndex) {
+  const t = arr[firstElementIndex]
+  arr[firstElementIndex] = arr[secondElementIndex]
+  arr[secondElementIndex] = t
+}
+
+
+/*
  * generates random number between min and max
  */
 function generateRandomNumber(min, max) {
@@ -78,6 +88,99 @@ function createHtmlArrayElements(arr) {
   appendChildrenToHtmlElement(htmlWrapperElement, [container])
 
   return elements
+}
+
+
+/*
+ * partition function for quick sort in-place visualization
+ *
+ * reference: https://www.geeksforgeeks.org/quick-sort/
+ */
+async function partition(arr, start, end) {
+  const pivotIndex = start
+  const pivotElement = arr[pivotIndex]
+
+  console.log({pivotIndex, pivotElement})
+
+  htmlElementsQuickSortInPlace[start].classList.add(LEFT_ITEM_CSS_CLASS)
+  htmlElementsQuickSortInPlace[pivotIndex].classList.add(SAME_ITEM_CSS_CLASS)
+  htmlElementsQuickSortInPlace[end].classList.add(RIGHT_ITEM_CSS_CLASS)
+
+  await wait()
+  
+  while (start < end) {
+    while (start < arr.length && arr[start] <= pivotElement) {
+      if (htmlElementsQuickSortInPlace[start]) {
+        htmlElementsQuickSortInPlace[start].classList.remove(LEFT_ITEM_CSS_CLASS)
+        htmlElementsQuickSortInPlace[start].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      }
+      
+      start++
+      
+      if (htmlElementsQuickSortInPlace[start]) {
+        htmlElementsQuickSortInPlace[start].classList.add(LEFT_ITEM_CSS_CLASS)
+      }
+
+      await wait()
+    }
+
+    while (arr[end] > pivotElement) {
+      if (htmlElementsQuickSortInPlace[end]) {
+        htmlElementsQuickSortInPlace[end].classList.remove(LEFT_ITEM_CSS_CLASS)
+        htmlElementsQuickSortInPlace[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      }
+      
+      end--
+      
+      if (htmlElementsQuickSortInPlace[end]) {
+        htmlElementsQuickSortInPlace[end].classList.add(RIGHT_ITEM_CSS_CLASS)
+      }
+
+      await wait()
+    }
+
+    if (start < end) {
+      swap(arr, start, end)
+
+      htmlElementsQuickSortInPlace[start].classList.remove(LEFT_ITEM_CSS_CLASS)
+      htmlElementsQuickSortInPlace[start].classList.add(RIGHT_ITEM_CSS_CLASS)
+
+      htmlElementsQuickSortInPlace[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      htmlElementsQuickSortInPlace[end].classList.add(LEFT_ITEM_CSS_CLASS)
+
+      htmlElementsQuickSortInPlace[start].style.height = `${arr[start]}px`
+      htmlElementsQuickSortInPlace[end].style.height = `${arr[end]}px`
+
+      await wait()
+    }
+  }
+
+  if (htmlElementsQuickSortInPlace[start]) {
+    htmlElementsQuickSortInPlace[start].classList.remove(LEFT_ITEM_CSS_CLASS)
+  }
+
+  swap(arr, pivotIndex, end)
+
+  htmlElementsQuickSortInPlace[pivotIndex].classList.remove(SAME_ITEM_CSS_CLASS)
+  htmlElementsQuickSortInPlace[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
+
+  htmlElementsQuickSortInPlace[pivotIndex].style.height = `${arr[pivotIndex]}px`
+  htmlElementsQuickSortInPlace[end].style.height = `${arr[end]}px`
+
+  return end
+}
+
+
+/*
+ * quick sort (in-place approach) visualization
+ */
+async function qsortInPlace(arr, start = 0, end = arr.length - 1) {
+  if (start >= end) return
+
+  const p = await partition(arr, start, end)
+
+  await qsortInPlace(arr, start, p - 1)
+  await qsortInPlace(arr, p + 1, end)
 }
 
 
@@ -214,9 +317,7 @@ async function bubbleSort(arr) {
       await wait()
 
       if (arr[j] > arr[j + 1]) {
-        const t = arr[j + 1]
-        arr[j + 1] = arr[j]
-        arr[j] = t
+        swap(arr, j, j + 1)
 
         htmlElementsBubbleSort[j].style.height = `${arr[j]}px`
         htmlElementsBubbleSort[j + 1].style.height = `${arr[j + 1]}px`
@@ -234,6 +335,7 @@ async function bubbleSort(arr) {
  */
 const initialRandomArray = generateRandomArray({ n: 50, min: 1, max: 400 })
 
+const htmlElementsQuickSortInPlace = createHtmlArrayElements(initialRandomArray)
 const htmlElementsQuickSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsMergeSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsBubbleSort = createHtmlArrayElements(initialRandomArray)
@@ -252,6 +354,7 @@ const RIGHT_ITEM_CSS_CLASS = 'right-item'
 /*
  * start visualization process
  */
+qsortInPlace([...initialRandomArray])
 qsort([...initialRandomArray])
 mergeSort([...initialRandomArray])
 bubbleSort([...initialRandomArray])
