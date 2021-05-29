@@ -12,7 +12,7 @@ function wait(timeToWait = 1000 / OPERATIONS_PER_SECOND) {
  * generates random number between min and max
  */
 function generateRandomNumber(min, max) {
-  return Math.random() * (max - min) + min
+  return Math.round(Math.random() * (max - min) + min)
 }
 
 
@@ -28,7 +28,6 @@ function generateRandomArray({ n, min, max }) {
 
   return arr
 }
-
 
 
 /*
@@ -136,6 +135,70 @@ async function qsort(arr, shiftIndex = 0) {
 
 
 /*
+ * merge sort visualization
+ */
+async function mergeSort(arr, shiftIndex = 0) {
+  if (arr.length < 2) return arr
+
+  const middleElementIndex = Math.round(arr.length / 2)
+
+  htmlElementsMergeSort[middleElementIndex + shiftIndex].classList.add(SAME_ITEM_CSS_CLASS)
+  await wait()
+  htmlElementsMergeSort[middleElementIndex + shiftIndex].classList.remove(SAME_ITEM_CSS_CLASS)
+  
+  const leftElements = arr.slice(0, middleElementIndex)
+  const rightElements = arr.slice(middleElementIndex)
+
+  const sortedLeftElements = await mergeSort(leftElements, shiftIndex)
+  const sortedRightElements = await mergeSort(rightElements, shiftIndex + middleElementIndex)
+
+  let i = 0, j = 0, k = 0
+
+  while (i < sortedLeftElements.length && j < sortedRightElements.length) {
+    if (sortedLeftElements[i] < sortedRightElements[j]) {
+      arr[k] = sortedLeftElements[i]
+      htmlElementsMergeSort[k + shiftIndex].classList.add(LEFT_ITEM_CSS_CLASS)
+      htmlElementsMergeSort[k + shiftIndex].style.height = `${arr[k]}px`
+      k++
+      i++
+    } else {
+      arr[k] = sortedRightElements[j]
+      htmlElementsMergeSort[k + shiftIndex].classList.add(RIGHT_ITEM_CSS_CLASS)
+      htmlElementsMergeSort[k + shiftIndex].style.height = `${arr[k]}px`
+      k++
+      j++
+    }
+    await wait()
+  }
+
+  while (i < sortedLeftElements.length) {
+    arr[k] = sortedLeftElements[i]
+    htmlElementsMergeSort[k + shiftIndex].classList.add(LEFT_ITEM_CSS_CLASS)
+    htmlElementsMergeSort[k + shiftIndex].style.height = `${arr[k]}px`
+    k++
+    i++
+    await wait()
+  }
+  while (j < sortedRightElements.length) {
+    arr[k] = sortedRightElements[j]
+    htmlElementsMergeSort[k + shiftIndex].classList.add(RIGHT_ITEM_CSS_CLASS)
+    htmlElementsMergeSort[k + shiftIndex].style.height = `${arr[k]}px`
+    k++
+    j++
+    await wait()
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    htmlElementsMergeSort[i + shiftIndex].classList.remove(LEFT_ITEM_CSS_CLASS)
+    htmlElementsMergeSort[i + shiftIndex].classList.remove(SAME_ITEM_CSS_CLASS)
+    htmlElementsMergeSort[i + shiftIndex].classList.remove(RIGHT_ITEM_CSS_CLASS)
+  }
+
+  return arr
+}
+
+
+/*
  * bubble sort visualization
  */
 async function bubbleSort(arr) {
@@ -171,6 +234,7 @@ async function bubbleSort(arr) {
 const initialRandomArray = generateRandomArray({ n: 150, min: 1, max: 500 })
 
 const htmlElementsQuickSort = createHtmlArrayElements(initialRandomArray)
+const htmlElementsMergeSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsBubbleSort = createHtmlArrayElements(initialRandomArray)
 
 
@@ -188,5 +252,5 @@ const RIGHT_ITEM_CSS_CLASS = 'right-item'
  * start visualization process
  */
 qsort([...initialRandomArray])
+mergeSort([...initialRandomArray])
 bubbleSort([...initialRandomArray])
-
