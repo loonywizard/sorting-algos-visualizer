@@ -100,40 +100,38 @@ async function partition(arr, start, end) {
   const pivotIndex = start
   const pivotElement = arr[pivotIndex]
 
-  console.log({pivotIndex, pivotElement})
-
-  htmlElementsQuickSortInPlace[start].classList.add(LEFT_ITEM_CSS_CLASS)
-  htmlElementsQuickSortInPlace[pivotIndex].classList.add(SAME_ITEM_CSS_CLASS)
-  htmlElementsQuickSortInPlace[end].classList.add(RIGHT_ITEM_CSS_CLASS)
+  htmlElementsQuickSort[start].classList.add(LEFT_ITEM_CSS_CLASS)
+  htmlElementsQuickSort[pivotIndex].classList.add(SAME_ITEM_CSS_CLASS)
+  htmlElementsQuickSort[end].classList.add(RIGHT_ITEM_CSS_CLASS)
 
   await wait()
   
   while (start < end) {
     while (start < arr.length && arr[start] <= pivotElement) {
-      if (htmlElementsQuickSortInPlace[start]) {
-        htmlElementsQuickSortInPlace[start].classList.remove(LEFT_ITEM_CSS_CLASS)
-        htmlElementsQuickSortInPlace[start].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      if (htmlElementsQuickSort[start]) {
+        htmlElementsQuickSort[start].classList.remove(LEFT_ITEM_CSS_CLASS)
+        htmlElementsQuickSort[start].classList.remove(RIGHT_ITEM_CSS_CLASS)
       }
       
       start++
       
-      if (htmlElementsQuickSortInPlace[start]) {
-        htmlElementsQuickSortInPlace[start].classList.add(LEFT_ITEM_CSS_CLASS)
+      if (htmlElementsQuickSort[start]) {
+        htmlElementsQuickSort[start].classList.add(LEFT_ITEM_CSS_CLASS)
       }
 
       await wait()
     }
 
     while (arr[end] > pivotElement) {
-      if (htmlElementsQuickSortInPlace[end]) {
-        htmlElementsQuickSortInPlace[end].classList.remove(LEFT_ITEM_CSS_CLASS)
-        htmlElementsQuickSortInPlace[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      if (htmlElementsQuickSort[end]) {
+        htmlElementsQuickSort[end].classList.remove(LEFT_ITEM_CSS_CLASS)
+        htmlElementsQuickSort[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
       }
       
       end--
       
-      if (htmlElementsQuickSortInPlace[end]) {
-        htmlElementsQuickSortInPlace[end].classList.add(RIGHT_ITEM_CSS_CLASS)
+      if (htmlElementsQuickSort[end]) {
+        htmlElementsQuickSort[end].classList.add(RIGHT_ITEM_CSS_CLASS)
       }
 
       await wait()
@@ -142,100 +140,100 @@ async function partition(arr, start, end) {
     if (start < end) {
       swap(arr, start, end)
 
-      htmlElementsQuickSortInPlace[start].classList.remove(LEFT_ITEM_CSS_CLASS)
-      htmlElementsQuickSortInPlace[start].classList.add(RIGHT_ITEM_CSS_CLASS)
+      htmlElementsQuickSort[start].classList.remove(LEFT_ITEM_CSS_CLASS)
+      htmlElementsQuickSort[start].classList.add(RIGHT_ITEM_CSS_CLASS)
 
-      htmlElementsQuickSortInPlace[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
-      htmlElementsQuickSortInPlace[end].classList.add(LEFT_ITEM_CSS_CLASS)
+      htmlElementsQuickSort[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      htmlElementsQuickSort[end].classList.add(LEFT_ITEM_CSS_CLASS)
 
-      htmlElementsQuickSortInPlace[start].style.height = `${arr[start]}px`
-      htmlElementsQuickSortInPlace[end].style.height = `${arr[end]}px`
+      htmlElementsQuickSort[start].style.height = `${arr[start]}px`
+      htmlElementsQuickSort[end].style.height = `${arr[end]}px`
 
       await wait()
     }
   }
 
-  if (htmlElementsQuickSortInPlace[start]) {
-    htmlElementsQuickSortInPlace[start].classList.remove(LEFT_ITEM_CSS_CLASS)
+  if (htmlElementsQuickSort[start]) {
+    htmlElementsQuickSort[start].classList.remove(LEFT_ITEM_CSS_CLASS)
   }
 
   swap(arr, pivotIndex, end)
 
-  htmlElementsQuickSortInPlace[pivotIndex].classList.remove(SAME_ITEM_CSS_CLASS)
-  htmlElementsQuickSortInPlace[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
+  htmlElementsQuickSort[pivotIndex].classList.remove(SAME_ITEM_CSS_CLASS)
+  htmlElementsQuickSort[end].classList.remove(RIGHT_ITEM_CSS_CLASS)
 
-  htmlElementsQuickSortInPlace[pivotIndex].style.height = `${arr[pivotIndex]}px`
-  htmlElementsQuickSortInPlace[end].style.height = `${arr[end]}px`
+  htmlElementsQuickSort[pivotIndex].style.height = `${arr[pivotIndex]}px`
+  htmlElementsQuickSort[end].style.height = `${arr[end]}px`
 
   return end
 }
 
 
 /*
- * quick sort (in-place approach) visualization
+ * quick sort visualization
  */
-async function qsortInPlace(arr, start = 0, end = arr.length - 1) {
+async function qsort(arr, start = 0, end = arr.length - 1) {
   if (start >= end) return
 
   const p = await partition(arr, start, end)
 
-  await qsortInPlace(arr, start, p - 1)
-  await qsortInPlace(arr, p + 1, end)
+  await qsort(arr, start, p - 1)
+  await qsort(arr, p + 1, end)
 }
 
 
-/*
- * quick sort (recursive approach) visualization
- */
-async function qsort(arr, shiftIndex = 0) {
-  if (arr.length < 2) return arr
+// /*
+//  * quick sort (recursive approach) visualization
+//  */
+// async function qsort(arr, shiftIndex = 0) {
+//   if (arr.length < 2) return arr
 
-  const baseElementIndex = 0
-  const baseElement = arr[baseElementIndex]
+//   const baseElementIndex = 0
+//   const baseElement = arr[baseElementIndex]
   
-  const smallerElements = []
-  const sameElements = []
-  const greaterElements = []
+//   const smallerElements = []
+//   const sameElements = []
+//   const greaterElements = []
 
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === baseElement) {
-      sameElements.push(baseElement)
-      htmlElementsQuickSort[i + shiftIndex].classList.add(SAME_ITEM_CSS_CLASS)
-    } else if (arr[i] < baseElement) {
-      smallerElements.push(arr[i])
-      htmlElementsQuickSort[i + shiftIndex].classList.add(LEFT_ITEM_CSS_CLASS)
-    } else {
-      greaterElements.push(arr[i])
-      htmlElementsQuickSort[i + shiftIndex].classList.add(RIGHT_ITEM_CSS_CLASS)
-    }
+//   for (let i = 0; i < arr.length; i++) {
+//     if (arr[i] === baseElement) {
+//       sameElements.push(baseElement)
+//       htmlElementsQuickSort[i + shiftIndex].classList.add(SAME_ITEM_CSS_CLASS)
+//     } else if (arr[i] < baseElement) {
+//       smallerElements.push(arr[i])
+//       htmlElementsQuickSort[i + shiftIndex].classList.add(LEFT_ITEM_CSS_CLASS)
+//     } else {
+//       greaterElements.push(arr[i])
+//       htmlElementsQuickSort[i + shiftIndex].classList.add(RIGHT_ITEM_CSS_CLASS)
+//     }
     
-    await wait()
-  }
+//     await wait()
+//   }
 
-  for (let i = shiftIndex; i < shiftIndex + arr.length; i++) {
-    htmlElementsQuickSort[i].classList.remove(LEFT_ITEM_CSS_CLASS)
-    htmlElementsQuickSort[i].classList.remove(SAME_ITEM_CSS_CLASS)
-    htmlElementsQuickSort[i].classList.remove(RIGHT_ITEM_CSS_CLASS)
-  }
+//   for (let i = shiftIndex; i < shiftIndex + arr.length; i++) {
+//     htmlElementsQuickSort[i].classList.remove(LEFT_ITEM_CSS_CLASS)
+//     htmlElementsQuickSort[i].classList.remove(SAME_ITEM_CSS_CLASS)
+//     htmlElementsQuickSort[i].classList.remove(RIGHT_ITEM_CSS_CLASS)
+//   }
 
   
-  smallerElements.forEach((element, elementIndex) => {
-    htmlElementsQuickSort[shiftIndex + elementIndex].style.height = `${element}px`
-  })
-  sameElements.forEach((element, elementIndex) => {
-    htmlElementsQuickSort[shiftIndex + elementIndex + smallerElements.length].style.height = `${element}px`
-  })
-  greaterElements.forEach((element, elementIndex) => {
-    htmlElementsQuickSort[shiftIndex + smallerElements.length + sameElements.length + elementIndex].style.height = `${element}px`
-  })
+//   smallerElements.forEach((element, elementIndex) => {
+//     htmlElementsQuickSort[shiftIndex + elementIndex].style.height = `${element}px`
+//   })
+//   sameElements.forEach((element, elementIndex) => {
+//     htmlElementsQuickSort[shiftIndex + elementIndex + smallerElements.length].style.height = `${element}px`
+//   })
+//   greaterElements.forEach((element, elementIndex) => {
+//     htmlElementsQuickSort[shiftIndex + smallerElements.length + sameElements.length + elementIndex].style.height = `${element}px`
+//   })
   
-  await wait()
+//   await wait()
 
-  const left = await qsort(smallerElements, shiftIndex)
-  const right = await qsort(greaterElements, shiftIndex + smallerElements.length + sameElements.length)
+//   const left = await qsort(smallerElements, shiftIndex)
+//   const right = await qsort(greaterElements, shiftIndex + smallerElements.length + sameElements.length)
 
-  return [...left, ...sameElements, ...right]
-}
+//   return [...left, ...sameElements, ...right]
+// }
 
 
 /*
@@ -331,14 +329,57 @@ async function bubbleSort(arr) {
 
 
 /*
+ * insertion sort implementation
+ */
+async function insertionSort(arr) {
+  const n = arr.length
+
+  for (let i = 1; i < n; i++) {
+    let currentElementIndex = i
+
+    htmlElementsInsertionSort[currentElementIndex].classList.add(RIGHT_ITEM_CSS_CLASS)
+    await wait()
+
+    for (let j = i - 1; j >= 0; j--) {
+      htmlElementsInsertionSort[j].classList.add(LEFT_ITEM_CSS_CLASS)
+      await wait()
+
+      if (arr[currentElementIndex] >= arr[j]) {
+        htmlElementsInsertionSort[currentElementIndex].classList.remove(RIGHT_ITEM_CSS_CLASS)
+        htmlElementsInsertionSort[j].classList.remove(LEFT_ITEM_CSS_CLASS)
+        await wait()
+        break
+      }
+
+      swap(arr, currentElementIndex, j)
+
+      htmlElementsInsertionSort[currentElementIndex].style.height = `${arr[currentElementIndex]}px`
+      htmlElementsInsertionSort[j].style.height = `${arr[j]}px`
+
+      htmlElementsInsertionSort[currentElementIndex].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      htmlElementsInsertionSort[j].classList.remove(LEFT_ITEM_CSS_CLASS)
+      htmlElementsInsertionSort[j].classList.add(RIGHT_ITEM_CSS_CLASS)
+
+      await wait()
+
+
+      currentElementIndex--
+    }
+
+    htmlElementsInsertionSort[currentElementIndex].classList.remove(LEFT_ITEM_CSS_CLASS)
+  }
+}
+
+
+/*
  * init array and html elements 
  */
 const initialRandomArray = generateRandomArray({ n: 50, min: 1, max: 400 })
 
-const htmlElementsQuickSortInPlace = createHtmlArrayElements(initialRandomArray)
 const htmlElementsQuickSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsMergeSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsBubbleSort = createHtmlArrayElements(initialRandomArray)
+const htmlElementsInsertionSort = createHtmlArrayElements(initialRandomArray)
 
 
 /*
@@ -354,7 +395,7 @@ const RIGHT_ITEM_CSS_CLASS = 'right-item'
 /*
  * start visualization process
  */
-qsortInPlace([...initialRandomArray])
 qsort([...initialRandomArray])
 mergeSort([...initialRandomArray])
 bubbleSort([...initialRandomArray])
+insertionSort([...initialRandomArray])
