@@ -367,6 +367,7 @@ async function insertionSort(arr) {
     }
 
     htmlElementsInsertionSort[currentElementIndex].classList.remove(LEFT_ITEM_CSS_CLASS)
+    htmlElementsInsertionSort[currentElementIndex].classList.remove(RIGHT_ITEM_CSS_CLASS)
   }
 }
 
@@ -374,7 +375,7 @@ async function insertionSort(arr) {
 /*
  * init array and html elements 
  */
-const initialRandomArray = generateRandomArray({ n: 50, min: 1, max: 400 })
+const initialRandomArray = generateRandomArray({ n: 40, min: 10, max: 500 })
 
 const htmlElementsQuickSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsMergeSort = createHtmlArrayElements(initialRandomArray)
