@@ -182,60 +182,6 @@ async function qsort(arr, start = 0, end = arr.length - 1) {
 }
 
 
-// /*
-//  * quick sort (recursive approach) visualization
-//  */
-// async function qsort(arr, shiftIndex = 0) {
-//   if (arr.length < 2) return arr
-
-//   const baseElementIndex = 0
-//   const baseElement = arr[baseElementIndex]
-  
-//   const smallerElements = []
-//   const sameElements = []
-//   const greaterElements = []
-
-//   for (let i = 0; i < arr.length; i++) {
-//     if (arr[i] === baseElement) {
-//       sameElements.push(baseElement)
-//       htmlElementsQuickSort[i + shiftIndex].classList.add(SAME_ITEM_CSS_CLASS)
-//     } else if (arr[i] < baseElement) {
-//       smallerElements.push(arr[i])
-//       htmlElementsQuickSort[i + shiftIndex].classList.add(LEFT_ITEM_CSS_CLASS)
-//     } else {
-//       greaterElements.push(arr[i])
-//       htmlElementsQuickSort[i + shiftIndex].classList.add(RIGHT_ITEM_CSS_CLASS)
-//     }
-    
-//     await wait()
-//   }
-
-//   for (let i = shiftIndex; i < shiftIndex + arr.length; i++) {
-//     htmlElementsQuickSort[i].classList.remove(LEFT_ITEM_CSS_CLASS)
-//     htmlElementsQuickSort[i].classList.remove(SAME_ITEM_CSS_CLASS)
-//     htmlElementsQuickSort[i].classList.remove(RIGHT_ITEM_CSS_CLASS)
-//   }
-
-  
-//   smallerElements.forEach((element, elementIndex) => {
-//     htmlElementsQuickSort[shiftIndex + elementIndex].style.height = `${element}px`
-//   })
-//   sameElements.forEach((element, elementIndex) => {
-//     htmlElementsQuickSort[shiftIndex + elementIndex + smallerElements.length].style.height = `${element}px`
-//   })
-//   greaterElements.forEach((element, elementIndex) => {
-//     htmlElementsQuickSort[shiftIndex + smallerElements.length + sameElements.length + elementIndex].style.height = `${element}px`
-//   })
-  
-//   await wait()
-
-//   const left = await qsort(smallerElements, shiftIndex)
-//   const right = await qsort(greaterElements, shiftIndex + smallerElements.length + sameElements.length)
-
-//   return [...left, ...sameElements, ...right]
-// }
-
-
 /*
  * merge sort visualization
  */
