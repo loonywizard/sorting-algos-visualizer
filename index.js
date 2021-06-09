@@ -247,6 +247,115 @@ async function mergeSort(arr, shiftIndex = 0) {
 
 
 /*
+ * MaxHeap is used in heap sort algorithm
+ */
+class MaxHeap {
+  constructor() {
+    this.heap = []
+  }
+
+  getLeftChildIndex = (parentIndex) => 2 * parentIndex + 1
+  getRightChildIndex = (parentIndex) => 2 * parentIndex + 2
+  getParentIndex = (childIndex) => Math.floor((childIndex - 1) / 2)
+
+  hasLeftChild = (index) => this.getLeftChildIndex(index) < this.heap.length
+  hasRightChild = (index) => this.getRightChildIndex(index) < this.heap.length
+  hasParent = (index) => this.getParentIndex(index) >= 0
+
+  getLeftChild = (index) => this.heap[this.getLeftChildIndex(index)]
+  getRightChild = (index) => this.heap[this.getRightChildIndex(index)]
+  getParent = (index) => this.heap[this.getParentIndex(index)]
+
+  swap(firstIndex, secondIndex) {
+    [this.heap[firstIndex], this.heap[secondIndex]] = [this.heap[secondIndex], this.heap[firstIndex]]
+  }
+
+  isEmpty() {
+    return this.heap.length === 0
+  }
+
+  async heapifyUp() {
+    let index = this.heap.length - 1
+
+    while (this.hasParent(index) && this.comparatorFn(this.heap[index], this.getParent(index))) {
+      const parentIndex = this.getParentIndex(index)
+      this.swap(index, parentIndex)
+      htmlElementsHeapSort[index].style.height = `${this.heap[index]}px`
+      htmlElementsHeapSort[parentIndex].style.height = `${this.heap[parentIndex]}px`
+      await wait()
+      index = parentIndex
+    }
+  }
+
+  async insert(nodeValue) {
+    this.heap.push(nodeValue)
+    await this.heapifyUp()
+  }
+
+  async heapifyDown() {
+    let index = 0
+
+    while (this.hasLeftChild(index)) {
+      let childIndexToReplace = this.getLeftChildIndex(index)
+      if (this.hasRightChild(index) && this.comparatorFn(this.getRightChild(index), this.getLeftChild(index))) {
+        childIndexToReplace = this.getRightChildIndex(index)
+      }
+
+      if (this.comparatorFn(this.heap[index], this.heap[childIndexToReplace])) {
+        break
+      }
+
+      this.swap(index, childIndexToReplace)
+      htmlElementsHeapSort[index].style.height = `${this.heap[index]}px`
+      htmlElementsHeapSort[childIndexToReplace].style.height = `${this.heap[childIndexToReplace]}px`
+      await wait()
+      index = childIndexToReplace
+    }
+  }
+
+  async pop() {
+    if (this.isEmpty()) throw new Error('Heap is empty!')
+
+    // remove first element
+    const item = this.heap[0]
+
+    if (this.heap.length <= 2) {
+      this.heap.shift()
+      return item
+    }
+
+    // insert last element to the beginning
+    this.heap[0] = this.heap.pop()
+
+    this.heapifyDown()
+
+    return item
+  }
+
+  comparatorFn(valueA, valueB) {
+    return valueA > valueB
+  }
+}
+
+/*
+ * heap sort visualization
+ */
+async function heapSort(arr) {
+  const heap = new MaxHeap()
+
+  for (let element of arr) {
+    await heap.insert(element)
+  }
+
+  for (let i = arr.length - 1; i >= 0; i--) {
+    arr[i] = await heap.pop()
+    await wait()
+    htmlElementsHeapSort[i].style.height = `${arr[i]}px`
+  }
+}
+
+
+/*
  * bubble sort visualization
  */
 async function bubbleSort(arr) {
@@ -325,6 +434,7 @@ const initialRandomArray = generateRandomArray({ n: 40, min: 10, max: 500 })
 
 const htmlElementsQuickSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsMergeSort = createHtmlArrayElements(initialRandomArray)
+const htmlElementsHeapSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsBubbleSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsInsertionSort = createHtmlArrayElements(initialRandomArray)
 
@@ -344,5 +454,6 @@ const RIGHT_ITEM_CSS_CLASS = 'right-item'
  */
 qsort([...initialRandomArray])
 mergeSort([...initialRandomArray])
+heapSort([...initialRandomArray])
 bubbleSort([...initialRandomArray])
 insertionSort([...initialRandomArray])
