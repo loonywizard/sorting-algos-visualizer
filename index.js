@@ -277,14 +277,32 @@ class MaxHeap {
   async heapifyUp() {
     let index = this.heap.length - 1
 
+    htmlElementsHeapSort[index].classList.add(LEFT_ITEM_CSS_CLASS)
+    
     while (this.hasParent(index) && this.comparatorFn(this.heap[index], this.getParent(index))) {
       const parentIndex = this.getParentIndex(index)
+
+      htmlElementsHeapSort[parentIndex].classList.add(RIGHT_ITEM_CSS_CLASS)
+      await wait()
+
       this.swap(index, parentIndex)
+      
+      htmlElementsHeapSort[index].classList.remove(LEFT_ITEM_CSS_CLASS)
+      htmlElementsHeapSort[index].classList.add(RIGHT_ITEM_CSS_CLASS)
+
+      htmlElementsHeapSort[parentIndex].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      htmlElementsHeapSort[parentIndex].classList.add(LEFT_ITEM_CSS_CLASS)
+
       htmlElementsHeapSort[index].style.height = `${this.heap[index]}px`
       htmlElementsHeapSort[parentIndex].style.height = `${this.heap[parentIndex]}px`
+      
       await wait()
+      htmlElementsHeapSort[index].classList.remove(RIGHT_ITEM_CSS_CLASS)
+
       index = parentIndex
     }
+
+    htmlElementsHeapSort[index].classList.remove(LEFT_ITEM_CSS_CLASS)
   }
 
   async insert(nodeValue) {
@@ -294,6 +312,8 @@ class MaxHeap {
 
   async heapifyDown() {
     let index = 0
+
+    htmlElementsHeapSort[index].classList.add(LEFT_ITEM_CSS_CLASS)
 
     while (this.hasLeftChild(index)) {
       let childIndexToReplace = this.getLeftChildIndex(index)
@@ -305,12 +325,25 @@ class MaxHeap {
         break
       }
 
+      htmlElementsHeapSort[childIndexToReplace].classList.add(RIGHT_ITEM_CSS_CLASS)
+
+      await wait()
+
       this.swap(index, childIndexToReplace)
+      htmlElementsHeapSort[index].classList.remove(LEFT_ITEM_CSS_CLASS)
+      htmlElementsHeapSort[index].classList.add(RIGHT_ITEM_CSS_CLASS)
+
+      htmlElementsHeapSort[childIndexToReplace].classList.remove(RIGHT_ITEM_CSS_CLASS)
+      htmlElementsHeapSort[childIndexToReplace].classList.add(LEFT_ITEM_CSS_CLASS)
+
       htmlElementsHeapSort[index].style.height = `${this.heap[index]}px`
       htmlElementsHeapSort[childIndexToReplace].style.height = `${this.heap[childIndexToReplace]}px`
       await wait()
+      htmlElementsHeapSort[index].classList.remove(RIGHT_ITEM_CSS_CLASS)
       index = childIndexToReplace
     }
+
+    htmlElementsHeapSort[index].classList.remove(LEFT_ITEM_CSS_CLASS)
   }
 
   async pop() {
@@ -327,7 +360,7 @@ class MaxHeap {
     // insert last element to the beginning
     this.heap[0] = this.heap.pop()
 
-    this.heapifyDown()
+    await this.heapifyDown()
 
     return item
   }
@@ -336,6 +369,7 @@ class MaxHeap {
     return valueA > valueB
   }
 }
+
 
 /*
  * heap sort visualization
@@ -349,7 +383,7 @@ async function heapSort(arr) {
 
   for (let i = arr.length - 1; i >= 0; i--) {
     arr[i] = await heap.pop()
-    await wait()
+
     htmlElementsHeapSort[i].style.height = `${arr[i]}px`
   }
 }
