@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --minify --target=chrome58 --outfile=dist/index.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.12.8"
+  }
+}
