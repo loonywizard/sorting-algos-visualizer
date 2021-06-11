@@ -10,5 +10,3 @@ Implemented sorting algorithms:
 - Insertion sort
 
 live demo: https://loonywizard.github.io/sorting-algos-visualizer/
-
-(Work in Progress)
