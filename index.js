@@ -464,7 +464,10 @@ async function insertionSort(arr) {
 /*
  * init array and html elements 
  */
-const initialRandomArray = generateRandomArray({ n: 40, min: 10, max: 500 })
+const ARRAY_ITEM_WIDTH = 15
+const ARRAY_LENGTH = Math.round(document.body.offsetWidth / ARRAY_ITEM_WIDTH)
+
+const initialRandomArray = generateRandomArray({ n: ARRAY_LENGTH, min: 10, max: 400 })
 
 const htmlElementsQuickSort = createHtmlArrayElements(initialRandomArray)
 const htmlElementsMergeSort = createHtmlArrayElements(initialRandomArray)

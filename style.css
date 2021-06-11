@@ -6,23 +6,13 @@ body, html {
 .wrapper {
   padding: 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 20px;
+  grid-template-columns: 1frx;
   grid-row-gap: 20px;
 }
-@media screen and (max-width: 1400px) {
-  .wrapper {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media screen and (max-width: 800px) {
-  .wrapper {
-    grid-template-columns: 1fr;
-  }
-}
+
 .sorting-algo-container {
+  height: 400px;
   display: flex;
-  flex-grow: 50%;
   align-items: flex-end;
 }
 .item {
