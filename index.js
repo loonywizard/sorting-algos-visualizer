@@ -464,7 +464,7 @@ async function insertionSort(arr) {
 /*
  * init array and html elements 
  */
-const ARRAY_ITEM_WIDTH = 15
+const ARRAY_ITEM_WIDTH = 10
 const ARRAY_LENGTH = Math.round(document.body.offsetWidth / ARRAY_ITEM_WIDTH)
 
 const initialRandomArray = generateRandomArray({ n: ARRAY_LENGTH, min: 10, max: 400 })
