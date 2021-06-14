@@ -1,3 +1,5 @@
+<img src="app-demo.gif" />
+
 # sorting-algos-visualizer
 
 Visualization of common sorting algorithms
