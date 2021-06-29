@@ -10,51 +10,65 @@
 <body>
   <div class="info">
     <h1>sorting-algos-visualizer</h1>
-    <p>Visualization of common sorting algorithms</p>
     <p>
+      Visualization of common sorting algorithms.
       Source code is available on 
       <a href="https://github.com/loonywizard/sorting-algos-visualizer" target="_blank">GitHub</a>,
       made&nbsp;by&nbsp;<a href="https://vladimirnikitin.com" target="_blank">Vladimir&nbsp;Nikitin</a>
     </p>
   </div>
+  <div id="wrapper" class="wrapper"></div>
   <div id="wrapper" class="wrapper">
     <div class="algo" id="quick-sort">
       <div class="algo-container"></div>
       <div class="algo-info">
-        <i>Quick Sort</i>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi alias illo eos nam modi, et aut accusantium veniam vel ipsum numquam id voluptatum debitis! Aperiam adipisci tempore culpa voluptas voluptatum.
+        <i><b>Quick Sort</b></i>
+        is a divide-and-conquer algorithm.
+        It works by selecting a 'pivot' element from the array and partitioning the other elements into two sub-arrays,
+        according to whether they are less than or greater than the pivot. The sub-arrays are then sorted recursively.
+        <a href="https://en.wikipedia.org/wiki/Quicksort">Link to Wikipedia</a>
       </div>
     </div>
 
     <div class="algo" id="merge-sort">
       <div class="algo-container"></div>
       <div class="algo-info">
-        <i>Merge Sort</i>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora consequatur doloremque culpa natus facilis eligendi officiis quae. Quos officiis dicta impedit fugit eius distinctio veniam aperiam nulla. Eveniet, accusamus doloremque!
+        <i><b>Merge Sort</b></i>
+        algorithm works as follows: divide the unsorted list into n sublists, each containing one element (a list of one element is considered sorted).
+        Repeatedly merge sublists to produce new sorted sublists until there is only one sublist remaining. This will be the sorted list.
+        <a href="https://en.wikipedia.org/wiki/Merge_sort">Link to Wikipedia</a>
       </div>
     </div>
 
     <div class="algo" id="heap-sort">
       <div class="algo-container"></div>
       <div class="algo-info">
-        <i>Heap Sort</i>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis sit veniam perferendis nesciunt, laboriosam a ratione eligendi non dolores repellendus harum deserunt dolore vel voluptate debitis error obcaecati maiores consequatur?
+        <i><b>Heap Sort</b></i>:
+        in the first step, a Max Heap is built out of the input array.
+        In the second step, a sorted array is created by repeatedly removing the largest element from the heap, and inserting it into the array.
+        The heap is updated after each removal to maintain the heap property.
+        <a href="https://en.wikipedia.org/wiki/Heapsort">Link to Wikipedia</a>
       </div>
     </div>
 
     <div class="algo" id="bubble-sort">
       <div class="algo-container"></div>
       <div class="algo-info">
-        <i>Bubble Sort</i>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus architecto ex velit amet sed, cum porro cupiditate perferendis odit! Autem debitis quaerat accusamus molestias laudantium. Facilis laudantium illo odit consectetur.
+        <i><b>Bubble Sort</b></i>
+        is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. 
+        The pass through the list is repeated until the list is sorted.
+        <a href="https://en.wikipedia.org/wiki/Bubble_sort">Link to Wikipedia</a>
       </div>
     </div>
 
     <div class="algo" id="insertion-sort">
       <div class="algo-container"></div>
       <div class="algo-info">
-        <i>Insertion Sort</i>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi mollitia ut, nemo labore laboriosam assumenda culpa ipsa nihil quia reiciendis dolor incidunt magnam facere alias amet quas enim? Nulla, molestias.
+        <i><b>Insertion Sort</b></i>
+        iterates, consuming one input element each repetition, and grows a sorted output list.
+        At each iteration, insertion sort removes one element from the input data,
+        finds the location it belongs within the sorted list, and inserts it there. It repeats until no input elements remain.
+        <a href="https://en.wikipedia.org/wiki/Insertion_sort">Link to Wikipedia</a>
       </div>
     </div>
   </div>
