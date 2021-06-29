@@ -14,7 +14,7 @@ a {
   padding: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-row-gap: 20px;
+  grid-row-gap: 35px;
   grid-column-gap: 20px;
 }
 
@@ -30,10 +30,19 @@ a {
   }
 }
 
-.sorting-algo-container {
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 1.4em;
+  }
+}
+
+.algo-container {
   height: 400px;
   display: flex;
   align-items: flex-end;
+}
+.algo-info {
+  margin-top: 10px;
 }
 .item {
   margin-left: 1px;
