@@ -13,8 +13,21 @@ a {
 .wrapper {
   padding: 10px;
   display: grid;
-  grid-template-columns: 1frx;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+
+@media screen and (max-width: 1400px) {
+  .wrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
 }
 
 .sorting-algo-container {
