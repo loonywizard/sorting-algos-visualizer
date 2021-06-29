@@ -1,5 +1,4 @@
 import { appendChildrenToHtmlElement } from './appendChildrenToHtmlElement'
-import { createContainerDiv } from './createContainerDiv'
 
 
 /*
@@ -18,14 +17,13 @@ function createArrayHtmlElement(value) {
 /*
  * inits HTML elements for given array and iserts them to DOM 
  */
-function createHtmlArrayElements(arr) {
-  const container = createContainerDiv()
-  const htmlWrapperElement = document.getElementById('wrapper')
+function createHtmlArrayElements(arr, wrapperId) {
+  const algoWrapper = document.getElementById(wrapperId)
+  const algoContainer = algoWrapper.getElementsByClassName('algo-container')[0]
 
-  const elements = arr.map((arrItem) => createArrayHtmlElement(arrItem, container))
+  const elements = arr.map(createArrayHtmlElement)
 
-  appendChildrenToHtmlElement(container, elements)
-  appendChildrenToHtmlElement(htmlWrapperElement, [container])
+  appendChildrenToHtmlElement(algoContainer, elements)
 
   return elements
 }
